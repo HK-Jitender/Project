@@ -1,41 +1,5 @@
-// const config = require('./config');
-
-// module.exports = {
-//     development: {
-//         username: config.dbUser,
-//         password: config.dbPass,
-//         database: config.dbName,
-//         host: config.dbHost,
-//         dialect: 'mysql',
-//         dialectOptions: {
-//             bigNumberStrings: true,
-//         },
-//     },
-//     test: {
-//         username: config.dbUser,
-//         password: config.dbPass,
-//         database: config.dbName,
-//         host: config.dbHost,
-//         dialect: 'mysql',
-//         dialectOptions: {
-//             bigNumberStrings: true,
-//         },
-//     },
-//     production: {
-//         username: config.dbUser,
-//         password: config.dbPass,
-//         database: config.dbName,
-//         host: config.dbHost,
-//         port: config.port,
-//         dialect: 'mysql',
-//         dialectOptions: {
-//             bigNumberStrings: true,
-//         },
-//     },
-// };
-import path from 'path'; // Import path module
-
 // Function to get the directory name from import.meta.url
+import path from 'path';
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 export default {
@@ -45,7 +9,7 @@ export default {
     username: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || 'Hardkore@123',
     database: process.env.DB_NAME || 'blendBasket_test',
-    synchronize: true,  // Set to false in production
+    synchronize: false,  // Set to false in production
     logging: true,
     name:'default',
     entities: [

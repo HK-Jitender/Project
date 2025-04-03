@@ -33,7 +33,7 @@ const dataSource = new DataSource({
     username: config.username,
     password: config.password,
     database: config.database,
-    synchronize: true, // Set to false in production
+    synchronize: false, // Set to false in production
     logging: false,
     entities: await Promise.all(entities),
     name: config.name // Wait for all models to be loaded

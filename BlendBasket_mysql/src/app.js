@@ -30,32 +30,32 @@ app.use(express.json());
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
 
-// TypeORM Database Connection
-const AppDataSource = new DataSource({
-    type: 'mysql',  // Can be 'postgres', 'mariadb', 'sqlite', etc.
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT || 3306,
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-    synchronize: true,  // Use false in production for data safety
-    logging: true,
-    entities: [User],  // Specify your entities here
-    migrations: [],
-    subscribers: [],
-});
+// // TypeORM Database Connection
+// const AppDataSource = new DataSource({
+//     type: 'mysql',  // Can be 'postgres', 'mariadb', 'sqlite', etc.
+//     host: process.env.DB_HOST,
+//     port: process.env.DB_PORT || 3306,
+//     username: process.env.DB_USER,
+//     password: process.env.DB_PASS,
+//     database: process.env.DB_NAME,
+//     synchronize: false,  // Use false in production for data safety
+//     logging: true,
+//     entities: [User],  // Specify your entities here
+//     migrations: [],
+//     subscribers: [],
+// });
 
-AppDataSource.initialize()
-    .then(() => {
-        console.log('Database connected with TypeORM');
-    })
-    .catch((error) => {
-        console.error('Database connection failed:', error);
-    });
+// AppDataSource.initialize()
+//     .then(() => {
+//         console.log('Database connected with TypeORM');
+//     })
+//     .catch((error) => {
+//         console.error('Database connection failed:', error);
+//     });
 
-app.get('/', async (req, res) => {
-    res.status(200).send('Congratulations! API is working!');
-});
+// app.get('/', async (req, res) => {
+//     res.status(200).send('Congratulations! API is working!');
+// });
 app.use('/api', routes);
 
 // Send back a 404 error for any unknown API request

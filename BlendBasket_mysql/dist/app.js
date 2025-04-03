@@ -41,28 +41,28 @@ app.use(_express["default"].json());
 app.use(_passport["default"].initialize());
 _passport["default"].use('jwt', _passport2.jwtStrategy);
 
-// TypeORM Database Connection
-var AppDataSource = new _typeorm.DataSource({
-  type: 'mysql',
-  // Can be 'postgres', 'mariadb', 'sqlite', etc.
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT || 3306,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
-  synchronize: true,
-  // Use false in production for data safety
-  logging: true,
-  entities: [_User["default"]],
-  // Specify your entities here
-  migrations: [],
-  subscribers: []
-});
-AppDataSource.initialize().then(function () {
-  console.log('Database connected with TypeORM');
-})["catch"](function (error) {
-  console.error('Database connection failed:', error);
-});
+// // TypeORM Database Connection
+// var AppDataSource = new _typeorm.DataSource({
+//   type: 'mysql',
+//   // Can be 'postgres', 'mariadb', 'sqlite', etc.
+//   host: process.env.DB_HOST,
+//   port: process.env.DB_PORT || 3306,
+//   username: process.env.DB_USER,
+//   password: process.env.DB_PASS,
+//   database: process.env.DB_NAME,
+//   synchronize: true,
+//   // Use false in production for data safety
+//   logging: true,
+//   entities: [_User["default"]],
+//   // Specify your entities here
+//   migrations: [],
+//   subscribers: []
+// });
+// AppDataSource.initialize().then(function () {
+//   console.log('Database connected with TypeORM');
+// })["catch"](function (error) {
+//   console.error('Database connection failed:', error);
+// });
 app.get('/', /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {
     return _regenerator["default"].wrap(function _callee$(_context) {
