@@ -1,53 +1,94 @@
-import fs from 'fs'; // Use import instead of require
-import path from 'path'; // Use import instead of require
-import { DataSource } from 'typeorm'; // Import DataSource from TypeORM
-import { fileURLToPath, pathToFileURL } from 'url'; // Import fileURLToPath to convert URLs
+import fs from 'fs'; 
+import path from 'path'; 
+import { DataSource } from 'typeorm'; 
+import { fileURLToPath, pathToFileURL } from 'url'; 
 
 // Get the current directory name from import.meta.url
-const __filename = fileURLToPath(import.meta.url); // Convert to file path
-const __dirname = path.dirname(__filename); // Get the directory name
-
-console.log('Current directory:', __dirname); // Debugging output
-
-const env = process.env.NODE_ENV || 'development';
-import config from '../config/database.js'; // Ensure to include .js extension
-
+const __filename = fileURLToPath(import.meta.url); 
+const __dirname = path.dirname(__filename); 
 const db = {};
+const env = process.env.NODE_ENV || 'development';
+import config from '../config/database.js'; // Import database config
 
 // Read all model files and add them to the entities array
-const entities = fs.readdirSync(__dirname) // Use __dirname directly
-    .filter((file) => {
-        return file.indexOf('.') !== 0 && file !== path.basename(__filename) && file.slice(-3) === '.js';
-    })
+const entities = fs.readdirSync(__dirname)
+    .filter((file) => file.indexOf('.') !== 0 && file !== path.basename(__filename) && file.slice(-3) === '.js')
     .map((file) => {
-        // Convert the file path to file URL
-        const fileUrl = pathToFileURL(path.join(__dirname, file)).href; // Convert to file:// URL
-        return import(fileUrl).then((module) => module.default); // Dynamically import and return the model
+        const fileUrl = pathToFileURL(path.join(__dirname, file)).href; 
+        return import(fileUrl).then((module) => module.default);
     });
 
 // Create a new DataSource instance
 const dataSource = new DataSource({
-    type: config.type, // e.g., 'mysql', 'postgres', etc.
+    type: config.type, 
     host: config.host,
     port: config.port,
     username: config.username,
     password: config.password,
     database: config.database,
-    synchronize: false, // Set to false in production
+    synchronize: false, 
     logging: false,
     entities: await Promise.all(entities),
-    name: config.name // Wait for all models to be loaded
+    migrations: [path.join(__dirname, '../db/migrations/*.js')],
+    name: config.name, 
 });
-
-// Initialize the DataSource
-await dataSource.initialize()
-    .then(() => {
-        console.log('Data Source has been initialized!');
-    })
-    .catch((err) => {
-        console.error('Error during Data Source initialization:', err);
-    });
-
-db.dataSource = dataSource; // Add the DataSource to the db object
-
+dataSource.initialize()
+  .then(() => {
+    console.log('Data Source has been initialized!');
+  })
+  .catch((error) => {
+    console.log('Error during Data Source initialization:', error);
+  });
+  db.dataSource = dataSource;
+// Initialize DataSource, but don't call it during migration generation
 export default db;
+///////-----------------Uper code is sucessfuly creating the migration but not the tables 
+// import fs from 'fs';
+// import path from 'path';
+// import { DataSource } from 'typeorm';
+// import { fileURLToPath, pathToFileURL } from 'url';
+
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+
+// const env = process.env.NODE_ENV || 'development';
+// import config from '../config/database.js'; // Import database config
+
+// // Read all model files and add them to the entities array
+// const entities = fs.readdirSync(__dirname)
+//     .filter((file) => file.indexOf('.') !== 0 && file !== path.basename(__filename) && file.slice(-3) === '.js')
+//     .map((file) => {
+//         const fileUrl = pathToFileURL(path.join(__dirname, file)).href;
+//         return import(fileUrl).then((module) => module.default);
+//     });
+
+// // Create and export the DataSource instance
+// const dataSource = new DataSource({
+//     type: config.type,
+//     host: config.host,
+//     port: config.port,
+//     username: config.username,
+//     password: config.password,
+//     database: config.database,
+//     synchronize: false,  // Set to false for migrations
+//     logging: true,  // Enable logging to help with troubleshooting
+//     entities: [],  // We'll populate this later
+//     migrations: [path.join(__dirname, '../db/migrations/*.js')],
+//     name: config.name,
+// });
+
+// // Wait for entities to load, then add them to the dataSource instance
+// (async () => {
+//     const loadedEntities = await Promise.all(entities);
+//     dataSource.setOptions({
+//         entities: loadedEntities,
+//     });
+
+//     // Now that the entities are set, we can initialize the dataSource
+//     await dataSource.initialize();
+// })().catch((error) => {
+//     console.error('Error during data source initialization:', error);
+// });
+
+// // Export the dataSource instance
+// export default dataSource;

@@ -33,17 +33,17 @@ const Token = new EntitySchema({
     tableName: "tokens", // The name of the table in the database
     columns: {
         id: {
-            type: 'uuid', // UUID for primary key
+            type: Number, // UUID for primary key
             primary: true, // Mark as primary key
-            generated: 'uuid', // Automatically generate UUIDs
+            // generated: 'uuid', // Automatically generate UUIDs
         },
         token: {
             type: String, // Token as a string (e.g., JWT token)
             length: 255, // Set length for token if needed
         },
-        user_uuid: {
-            type: 'uuid', // UUID to link to a user
-        },
+        // user_uuid: {
+        //     type: 'uuid', // UUID to link to a user
+        // },
         type: {
             type: String, // Type of the token (e.g., 'access', 'refresh')
             length: 255, // Set length if needed
