@@ -35,7 +35,7 @@ const Token = new EntitySchema({
         id: {
             type: Number, // UUID for primary key
             primary: true, // Mark as primary key
-            // generated: 'uuid', // Automatically generate UUIDs
+         generated: true, // Automatically generate UUIDs
         },
         token: {
             type: String, // Token as a string (e.g., JWT token)
