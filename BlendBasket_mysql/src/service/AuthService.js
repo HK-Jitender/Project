@@ -40,7 +40,9 @@ class AuthService {
                 );
             }
             const isPasswordValid = await bcrypt.compare(password, user.password);
-            user = user.toJSON();
+            // if (user.toJSON) {
+            //     user = user.toJSON();
+            // }
             delete user.password;
 
             if (!isPasswordValid) {

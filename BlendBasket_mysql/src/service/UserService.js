@@ -135,8 +135,9 @@ class UserService {
             userBody.email = userBody.email.toLowerCase();
             userBody.password = bcrypt.hashSync(userBody.password, 8);
             userBody.uuid = uuid;
-            userBody.status = userConstant.STATUS_ACTIVE;
-            userBody.email_verified = userConstant.EMAIL_VERIFIED_FALSE;
+            userBody.address=userBody.address;
+            userBody.status = userConstant.userConstant.STATUS_ACTIVE;
+            userBody.email_verified = userConstant.userConstant.EMAIL_VERIFIED_FALSE;
 
             const userData = await this.userDao.create(userBody);
 

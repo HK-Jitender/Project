@@ -26,12 +26,16 @@ const dataSource = new DataSource({
     username: config.username,
     password: config.password,
     database: config.database,
-    synchronize: true, 
+    synchronize: false, 
     logging: false,
     entities: await Promise.all(entities),
     migrations: [path.join(__dirname, '../db/migrations/*.js')],
     name: config.name, 
+    
 });
+await dataSource.initialize(); // Ensure the DataSource is initialized
+console.log('Data Source has been initialized!');
+
 export default dataSource;
 ///////-----------------Uper code is sucessfuly creating the migration but not the tables 
 // import fs from 'fs';

@@ -150,6 +150,8 @@ class UserValidator {
             confirm_password: Joi.string().valid(Joi.ref('password')).required(),
             first_name: Joi.string(),
             last_name: Joi.string(),
+            address:Joi.string(),
+            phone_number:Joi.string().max(10),
         });
 
         // schema options

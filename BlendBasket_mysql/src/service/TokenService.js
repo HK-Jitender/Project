@@ -163,7 +163,14 @@ class TokenService {
         this.tokenDao = new TokenDao();
         this.redisService = new RedisService();
     }
-
+    async removeExpiredTokens(type) {
+        return Token.destroy({
+            where: {
+                type,
+                expires: { [Op.lt]: new Date() }, // Tokens that are expired
+            },
+        });
+    }
     /**
      * Generate token
      * @param {string} uuid
@@ -191,13 +198,18 @@ class TokenService {
             }
         });
 
+        // const tokenDoc = await this.tokenDao.findOne({
+        //     where: {
+        //         token,
+        //         type,
+        //         user_uuid: payload.sub,
+        //         blacklisted: false,
+        //     },
+        // });
         const tokenDoc = await this.tokenDao.findOne({
-            where: {
-                token,
-                type,
-                user_uuid: payload.sub,
-                blacklisted: false,
-            },
+            token,
+            type,
+            blacklisted: false,
         });
         if (!tokenDoc) {
             throw new Error('Token not found');
@@ -246,7 +258,7 @@ class TokenService {
         const accessTokenExpires = moment().add(config.jwt.accessExpirationMinutes, 'minutes');
         const accessToken = this.generateToken(
             user.uuid,
-            accessTokenExpires,
+            accessTokenExpires, 
             tokenTypes.ACCESS,
         );
         const refreshTokenExpires = moment().add(config.jwt.refreshExpirationDays, 'days');
@@ -276,8 +288,8 @@ class TokenService {
         await this.saveMultipleTokens(authTokens);
 
         // Remove expired tokens
-        await this.tokenDao.removeExpiredTokens(tokenTypes.ACCESS);
-        await this.tokenDao.removeExpiredTokens(tokenTypes.REFRESH);
+        // await this.tokenDao.removeExpiredTokens(tokenTypes.ACCESS);
+        // await this.tokenDao.removeExpiredTokens(tokenTypes.REFRESH);
 
         const tokens = {
             access: {

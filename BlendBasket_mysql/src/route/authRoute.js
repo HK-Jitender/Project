@@ -19,7 +19,7 @@ router.post('/refresh-token', authController.refreshTokens);
 router.post('/logout', authController.logout);
 router.put(
     '/change-password',
-    auth(),
+    // auth(),
     userValidator.changePasswordValidator,
     authController.changePassword,
 );
