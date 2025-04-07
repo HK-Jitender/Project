@@ -1,5 +1,5 @@
-export default  class CreateInitialTables1743767831586 {
-    name = 'CreateInitialTables1743767831586'
+export default  class Init1744011709653 {
+    name = 'Init1744011709653'
 
     async up(queryRunner) {
         await queryRunner.query(`CREATE TABLE \`tokens\` (\`id\` int NOT NULL AUTO_INCREMENT, \`token\` varchar(255) NOT NULL, \`type\` varchar(255) NOT NULL, \`expires\` timestamp NOT NULL, \`blacklisted\` tinyint NOT NULL, PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);
