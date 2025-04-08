@@ -4,6 +4,7 @@ import roleRoute from './roleRoute.js';
 import permissioRoute from './permissionRoutes.js'
 import rolePermissionRoute from'./rolePermissionRoute.js'
 import productCategoryRoute from './productCategoryRoutes.js';
+import productRoute from './productRoutes.js';
 // const authRoute = require('./authRoute');
 
 const router = express.Router();
@@ -28,6 +29,10 @@ const defaultRoutes = [
     {
         path: '/productCategory',
         route:productCategoryRoute,
+    },
+    {
+        path: '/product',
+        route:productRoute,
     },
 ];
 
