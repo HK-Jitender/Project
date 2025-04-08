@@ -22,6 +22,14 @@ const Permission = new EntitySchema({
             nullable: true, // Description can be optional
         },
     },
+    relations: {
+        rolePermissions: {
+            type: "one-to-many",
+            target: "RolePermission", // Relationship with RolePermission table
+            inverseSide: "permission", // Permission is the inverse side
+            cascade: true, // Cascade operations (insert, update, delete)
+        },
+    },
 });
 
 export default Permission;

@@ -25,6 +25,14 @@ const Role = new EntitySchema({
             nullable: true, // Weight can be optional
         },
     },
+    relations: {
+        rolePermissions: {
+            type: "one-to-many",
+            target: "RolePermission", // Relationship with RolePermission table
+            inverseSide: "role", // Role is the inverse side
+            cascade: true, // Cascade operations (insert, update, delete)
+        },
+    },
 });
 
 export default Role;
