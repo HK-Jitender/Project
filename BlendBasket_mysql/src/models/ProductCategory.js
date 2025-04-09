@@ -25,7 +25,7 @@ const ProductCategory = new EntitySchema({
             inverseSide: "category", // The inverse side of the relation in Product
             cascade: true, // Cascade operations (e.g., insert, update, delete) to related products
         },
-    },
+    },  
 });
 
 export default ProductCategory;
